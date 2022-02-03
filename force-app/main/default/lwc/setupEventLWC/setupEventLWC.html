@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Setup bitpod event app account" icon-name="custom:custom14">
+            <lightning-messages></lightning-messages>
+             
+            <div class="slds-grid slds-wrap slds-m-around_medium slds-gutters ">   
+                <div class="slds-col slds-size_1-of-2">                       
+                    <abbr title="required" class="slds-required">* </abbr><label for="apiurl">API URL</label>
+                    <lightning-input onchange={getFieldChange} value={apiurl} field-name="apiurl" variant="label-hidden" data-id="apiurl"></lightning-input>
+                
+                    <abbr title="required" class="slds-required">* </abbr><label for="accesskey">Access Key</label>
+                    <lightning-input type="password" onchange={getFieldChange} value={accesskey} field-name="accesskey" variant="label-hidden" data-id="accesskey" ></lightning-input>
+                   
+                    <abbr title="required" class="slds-required">* </abbr><label for="secretkey">Secret Key</label>
+                    <lightning-input type="password" onchange={getFieldChange} value={secretkey} field-name="secretkey" variant="label-hidden" data-id="secretkey" ></lightning-input>
+                </div> </br>                        
+            </div>
+        <div class="slds-grid setup-button">
+            <lightning-button type="submit" variant="brand" label="Save & Verify" title="Setup Account" onclick={saveEventSetup} class="slds-m-left_x-small setupSaveButton" disabled={isDisabled}></lightning-button>  </br></br>
+           &nbsp;&nbsp; <lightning-icon class="approve-button" icon-name="action:approval" alternative-text="Approved" if:true={isApproved} size="small" ></lightning-icon>
+        </div>
+            <div class="doc-link"><lightning-formatted-url value='https://docs.google.com/document/d/1qG_J1ysBfzegZ37Do9oD2S0EsV1YwnY9QNUTlfCkRBU/edit' label="Click here" ></lightning-formatted-url> to learn how to get API URL, access key and secret.</div>
+    </lightning-card>  
+    
+</template>

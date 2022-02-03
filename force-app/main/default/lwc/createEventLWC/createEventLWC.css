@@ -1,0 +1,46 @@
+.ticket-table {
+    width: 30% !important;
+    margin-right: 60px;
+}
+
+.locationtitle {
+    margin-left: 12px !important;
+    font-size: 15px;
+    /* font-weight: bold; */
+}
+
+.location-form {
+    margin-left: 1px;
+}
+
+.error-message {
+    font-size: larger;
+    margin-left: 22px;
+    margin-top: 17px;
+}
+
+.NextButtonBasicInfo{
+    margin-left: 10px !important;
+}
+
+.slds-m-left_x-small{
+    margin-left: 16px !important;
+}
+
+.ticket-buttons{
+    margin-left: -14px ;
+}
+
+.setup-text-msg{
+    font-size: 15px;
+    color: red;
+    margin-top: -16px;
+}
+
+.setup-close-button{
+    margin-left: -15px;
+}
+
+.div-footer-button{
+    margin-left: -16px;
+}

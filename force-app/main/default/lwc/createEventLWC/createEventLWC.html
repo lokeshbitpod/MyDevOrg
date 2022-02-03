@@ -1,0 +1,212 @@
+<template >   
+    <lightning-record-edit-form record-id={recordId} object-api-name={eventObject}  columns="2">    
+    <lightning-tabset>   
+        <lightning-formatted-rich-text class="slds-text-color_destructive error-message" value={ValidationMessage} if:true={isValidationMessage}></lightning-formatted-rich-text>
+        <lightning-formatted-rich-text class="slds-text-color_destructive error-message" value={ticketValidationMessage} if:true={isTicketValidationMessage}></lightning-formatted-rich-text>
+        
+        
+            <lightning-messages></lightning-messages>
+                <lightning-tab id="1" icon-name="utility:info" label="Basic Info" onactive={tabselect}>
+                    <div class="slds-grid slds-wrap slds-m-around_medium">
+                        <div class="slds-col slds-size_1-of-1" >
+                            <abbr title="required" class="slds-required">*</abbr><label for="nameField">Event Title</label>
+                                <lightning-input-field onchange={getFieldChange} class="eventname" field-name={nameField} variant="label-hidden" data-id="EventName" required></lightning-input-field>
+                        </div> </br>
+                        <div class="slds-col slds-size_1-of-3">
+                                <abbr title="required" class="slds-required">*</abbr><label for="startdateField">Start Date</label>                            
+                                <lightning-input-field onchange={getFieldChange} field-name={startdateField} value={eventstartdate} variant="label-hidden" data-id="StartDate"></lightning-input-field>
+                        </div> 
+                        <div class="slds-col slds-size_1-of-3">
+                               <abbr title="required" class="slds-required">*</abbr><label for="enddateField">End Date</label>
+                                <lightning-input-field onchange={getFieldChange} field-name={enddateField} value={eventenddate}  variant="label-hidden" data-id="EndDate"></lightning-input-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                                <abbr title="required" class="slds-required">*</abbr><label for="timezoneField">Time Zone</label>
+                                <lightning-input-field onchange={getFieldChange} field-name={timezoneField} value={timezone} variant="label-hidden" data-id="TimeZone"></lightning-input-field>
+                        </div>   </br>    
+                        <div class="slds-col slds-size_1-of-1">                             
+                                <lightning-input-field field-name={descriptionField} variant="label-hidden" data-id="Description"></lightning-input-field>                                
+                        </div>  
+
+                    </div>
+                    <lightning-button variant="brand" label="Next" title="Next" onclick={gotoNextTab} class="slds-m-left_x-small NextButtonBasicInfo" disabled={isDisabledBasicInfo}></lightning-button>  
+                </lightning-tab>    
+                <lightning-tab id="2" icon-name="standard:address" label="Location" onactive={tabselect}>  
+                        <div class="locationtitle" >Enter venue and address to let people know location of your event.</div>
+                        <div class="slds-grid slds-wrap slds-m-around_medium slds-gutters location-form">                           
+                            <div class="slds-col slds-size_1-of-1" >
+                                <abbr title="required" class="slds-required">*</abbr><label for="venuenameField">Venue Name</label>
+                                <lightning-input-field onchange={getFieldChange} field-name={venuenameField} variant="label-hidden" required data-id="VenueName"></lightning-input-field> 
+                            </div>   
+                            <div class="slds-col slds-size_1-of-2" >
+                                <label for="streetField">Street</label>
+                                <lightning-input-field field-name={streetField}  variant="label-hidden" data-id="Street"></lightning-input-field>  
+                            </div>          
+                            <div class="slds-col slds-size_1-of-2" >       
+                                <label for="stateField">State</label>
+                                <lightning-input-field field-name={stateField}  variant="label-hidden" data-id="State"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2" >                 
+                                <label for="cityField">City</label>
+                                <lightning-input-field field-name={cityField}  variant="label-hidden" data-id="City"></lightning-input-field>  
+                            </div>
+                            <div class="slds-col slds-size_1-of-2" >         
+                                <label for="countryField">Country</label>
+                                <lightning-input-field field-name={countryField}  variant="label-hidden"  data-id="Country"></lightning-input-field>    
+                            </div>
+                            <div class="slds-col slds-size_1-of-2" >         
+                                <label for="postalcodeField">Zip Code</label>
+                                <lightning-input-field field-name={postalcodeField}  variant="label-hidden" data-id="PostalCode"></lightning-input-field>                                                                  
+                            </div>                            
+                        </div>
+                        <lightning-button variant="brand" label="Prev" title="Prev" onclick={gotoPrevTab} class="slds-m-left_x-small"></lightning-button>  
+                        <lightning-button variant="brand" label="Next" title="Next" onclick={gotoNextTab} class="slds-m-left_x-small" disabled={isDisabledLocation}></lightning-button>  
+                                             
+                </lightning-tab>
+                    
+                   
+                <lightning-tab id="3" icon-name="standard:timesheet" label="Tickets" onactive={tabselect}>   
+                        <div class="slds-grid" if:true={isTicket}>                           
+                            <div class="slds-col slds-p-horizontal_medium">  
+                                <lightning-record-edit-form  object-api-name={eventticketObject} style="margin-left:10px !important"> 
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-size_1-of-2">
+                                                <abbr title="required" class="slds-required">*</abbr><label for="ticketnameField">Ticket Name</label>
+                                                <lightning-input-field onchange={getFieldChange} field-name={ticketnameField} value={ticketNameValue}  variant="label-hidden" required data-id="TicketName"></lightning-input-field>
+                                                <abbr title="required" class="slds-required">*</abbr><label for="ticketTypeField">Type</label>
+                                                <lightning-input-field onchange={getFieldChange} field-name={ticketTypeField} value={ticketTypeValue} variant="label-hidden" required data-id="Type"></lightning-input-field>
+                                                <label for="ticketPriceField">Price ({currencycode})</label>
+                                                <lightning-input-field disabled={isPrice} field-name={ticketPriceField} value={ticketPriceValue} variant="label-hidden" data-id="Price"></lightning-input-field>
+                                                <abbr title="required" class="slds-required">*</abbr><label for="ticketStartDateField">Start Date</label>
+                                                <lightning-input-field onchange={getFieldChange} field-name={ticketStartDateField} value={ticketstartdate} variant="label-hidden" required data-id="TicketStartDate"></lightning-input-field>
+                                                <abbr title="required" class="slds-required">*</abbr><label for="ticketEndDateField">End Date</label>
+                                                <lightning-input-field onchange={getFieldChange} field-name={ticketEndDateField} value={ticketenddate} variant="label-hidden" required data-id="TicketEndDate"></lightning-input-field>
+                                                <label for="ticketQuantityField">Quantity</label>
+                                                <lightning-input-field field-name={ticketQuantityField} value={ticketQuantityValue} variant="label-hidden" data-id="Quantity"></lightning-input-field>
+                                            </div>                            
+                                        </div>    
+                                    </br> 
+                                    <div class="ticket-buttons">         
+                                        <lightning-button variant="brand" label="Add Ticket" title="Save" onclick={addTicket} class="slds-m-left_x-small" disabled={isDisabledTickets}></lightning-button>  
+                                        <lightning-button variant="brand" label="Prev" title="Prev" onclick={gotoPrevTab} class="slds-m-left_x-small"></lightning-button>  
+                                        <lightning-button type="submit" variant="brand" label="Save" title="Save" onclick={handleClick} class="slds-m-left_x-small" disabled={isDisabledSave}></lightning-button>                     
+                                    </div>    
+                                </lightning-record-edit-form>  
+                            </div>
+                           
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered ticket-table" if:true={isDisplayTicketHeader}>
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Action">Action</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Name">Name</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Type">Type</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Price">Price({currencycode})</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Start Date">Start Date</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="End Date">End Date</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Quantity">Quantity</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <template for:each={data} for:item="dataRow" for:index="index">
+                                        <tr key={dataRow.index} class="slds-hint-parent"> 
+                                            <td >
+                                                <lightning-button-icon name={index} icon-name="utility:delete" onclick={deleteTicket}  alternative-text="Delete" class="slds-m-left_xx-small"></lightning-button-icon>
+                                            </td>                                           
+                                            <td >
+                                                <div class="slds-truncate" title="Name">{dataRow.Name}</div>
+                                            </td>
+                                            <td >
+                                                <div class="slds-truncate" title="Type">{dataRow.bitpod__Type__c}</div>
+                                                </td>
+                                            <td >
+                                                <div class="slds-truncate" title="Price">{dataRow.bitpod__Price__c}</div>
+                                            </td>
+                                            <td >
+                                                <div class="slds-truncate" title="Price">{dataRow.bitpod__Start_Date__c}</div>
+                                            </td>
+                                            <td >
+                                                <div class="slds-truncate" title="Price">{dataRow.bitpod__End_Date__c}</div>
+                                            </td>
+                                            <td >
+                                                    <div class="slds-truncate" title="Quantity">{dataRow.bitpod__Quantity__c}</div>
+                                            </td>
+                                        </tr>
+                                    
+                                </template>    
+
+                            </table>
+                            
+                        </div>
+
+                        <lightning-card title="Congratulations, your event has been created." icon-name="custom:custom14" if:true={isEventCreated} >
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div>
+                                        <p > Event goers can only register after you publish it. Click on Publish button to publish.
+                                         </p>
+                                        </br></br>
+                                        <div class="div-footer-button">
+                                            <lightning-button variant="brand" label="Publish" title="Publish" onclick={publishEvent} class="slds-m-left_x-small"></lightning-button>  
+                                            <lightning-button variant="brand" label="Close" title="Close" onclick={closeEvent} class="slds-m-left_x-small"></lightning-button>                               
+                                        </div>
+                                </div>
+                            </div>
+                        </lightning-card>
+
+                        <lightning-card title="Your event has been published!" icon-name="custom:custom14" if:true={isEventPublished}>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div>
+                                        <p >Now event is open for registrations, you can click on view button to fetch the event landing page URL, which you can share with others, so they can register.</p>
+                                        </br></br>
+                                        <div class="div-footer-button">
+                                            <lightning-button variant="brand" label="View" title="View" onclick={previewEvent} class="slds-m-left_x-small"></lightning-button>  
+                                            <lightning-button variant="brand" label="Close" title="Close" onclick={closeEvent} class="slds-m-left_x-small"></lightning-button>                               
+                                        </div>
+                                </div>
+                            </div>
+                        </lightning-card>
+
+                        <lightning-card if:false={isBitpodSetup}>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="setup-text-msg">
+                                    <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error"></lightning-icon> 
+                                    &nbsp; <span class="setup-error">To publish events, you must setup bitpod event app account.</span>
+                                </div>
+                                </br> 
+                                <div class="setup-close-button">
+                                    <lightning-button variant="brand" label="Close" title="Close" onclick={closeEvent} class="slds-m-left_x-small"></lightning-button>                               
+                                </div>
+                            </div>
+                        </lightning-card>
+
+                        <lightning-card if:true={isPublishError}>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="setup-text-msg">
+                                    <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error"></lightning-icon> 
+                                    &nbsp; <span class="setup-error">Error while publishing event to bitpod.</span>
+                                </div>
+                                </br> 
+                                <div class="setup-close-button">
+                                    <lightning-button variant="brand" label="Close" title="Close" onclick={closeEvent} class="slds-m-left_x-small"></lightning-button>                               
+                                </div>
+                            </div>
+                        </lightning-card>
+                        
+                </lightning-tab>                   
+           
+    </lightning-tabset> 
+</lightning-record-edit-form> 
+    
+</template>

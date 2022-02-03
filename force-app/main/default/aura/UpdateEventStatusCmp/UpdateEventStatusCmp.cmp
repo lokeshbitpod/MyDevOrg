@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,force:lightningQuickActionWithoutHeader" access="global" >
+
+   <!-- <c:updateEventStatusLWC/> -->
+</aura:component>
